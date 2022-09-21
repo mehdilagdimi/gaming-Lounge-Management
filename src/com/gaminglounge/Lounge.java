@@ -2,20 +2,27 @@ package com.gaminglounge;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Lounge {
     public static void main(String[] args) {
-        int totalRevenue;
+//        List<PlaySession> listOfSessions = new ArrayList<PlaySession>();
+        PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
+        PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
+
+        int totalRevenue = 0;
         int menuOption;
         int stationNum;
-//        int durationOption;
+
         String start;
         String console, genre, game;
         String startTime;
         String duration;
 
         boolean repeat = true;
+
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to The Gaming Lounge Platform!");
         System.out.println("Add a new session? : Y/N");
@@ -71,29 +78,16 @@ public class Lounge {
 //                durationOption = menuOption;
                  duration = LoungeConstants.DURATIONS.keySet().toArray(new String[0])[menuOption];
 
-//                 switch(timeOption){
-//                     case 0:
-//
-//                         break;
-//                     case 1:
-//
-//                         break;
-//                     case 2:
-//
-//                         break;
-//                     case 3:
-//
-//                         break;
-//                     case 4:
-//
-//                         break;
-//                 }
+
+//                System.out.printf("Confirm? : Y/N \n");
+//                start = input.next();
+//                if (input.next().compareToIgnoreCase("Y") == 0) {
+
                 System.out.println("time :" + startTime);
                 System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
                 Station stationObj = new Station(stationNum, console);
-                playSession client = new playSession(stationObj, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+                PlaySession client = new PlaySession(stationObj, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
 //                repeat = false;
-
 
             }
         }

@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public final class LoungeConstants {
+    public static final int ACTIVE_CAPACITY = 9;
+    public static final int WAITING_CAPACITY = 8;
     private LoungeConstants() {
         throw new AssertionError();
     } // make constructor private to prevent instantiation
@@ -24,16 +26,16 @@ public final class LoungeConstants {
 
     static {
         CONSOLES = new TreeMap<String, Integer>(Map.ofEntries(
-                Map.entry("PS5", 2),
-                Map.entry("XBOX", 3),
+                Map.entry("PS5", 3),
+                Map.entry("XBOX", 4),
                 Map.entry("SWITCH", 2)
         ));
 
         SCREENS = new TreeMap<String, Integer>(Map.ofEntries(
-                Map.entry("DELL", 2),
+                Map.entry("DELL", 3),
                 Map.entry("HP", 1),
                 Map.entry("ASUS", 3),
-                Map.entry("SAMSUNG", 1)
+                Map.entry("SAMSUNG", 2)
         ));
 
         ArrayList<String> football = new ArrayList<String>(){

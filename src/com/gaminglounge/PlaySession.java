@@ -4,11 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 //import java.util.Date;
 
-public class playSession {
+public class PlaySession {
     Scanner scanner = new Scanner(System.in);
     private String firstName;
     private String lastName;
@@ -22,14 +21,14 @@ public class playSession {
 
     public Station station;
 
-    public playSession(Station station, LocalTime startHour, String duration) {
+    public PlaySession(Station station, LocalTime startHour, String duration) {
         this.station = station;
-        this.startHour = startHour;
-        this.duration = setDuration(duration);
-        this.pricePaid = setPricePaid(duration);
+//        this.pricePaid = setPricePaid(duration);
         this.date = LocalDate.now();
+        this.duration = setDuration(duration);
         this.setFirstName();
         this.setLastName();
+        this.startOnTime(startHour);
     }
 
 //    public int getPricePaid() {
@@ -71,8 +70,19 @@ public class playSession {
         this.lastName = scanner.next();
     }
 
+    private void startOnTime(LocalTime startHour) {
+            //Time the function execution
+
+        // after terminate the session
+        this.terminateSession();
+    }
     public void terminateSession(){
         this.isFinished = true;
+        //turn off the station
+        this.station.turnOff();
+
+        //then remove session from array of ACTIVE SESSIONS
+
     }
 
 }

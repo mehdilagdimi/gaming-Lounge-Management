@@ -18,6 +18,8 @@ public class Station {
         isOccupied = true;
     }
     public void turnOff(){
+        //SET A COUNT DOWN before turning the station off
+
         isTurnedOn = false;
     }
 }
