@@ -1,16 +1,22 @@
 package com.gaminglounge;
 
+import util.Queue;
+
+import java.util.Scanner;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Lounge {
     public static void main(String[] args) {
 //        List<PlaySession> listOfSessions = new ArrayList<PlaySession>();
+
         PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
         PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
+        Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
+        Queue<PlaySession> queueWaitingSessions = new Queue<PlaySession>(WaitingSessions);
+        Queue<PlaySession> queueOnHoldSessions = new Queue<PlaySession>(WaitingSessions);
 
         int totalRevenue = 0;
         int menuOption;
@@ -76,7 +82,7 @@ public class Lounge {
                 }
                 menuOption = input.nextInt();
 //                durationOption = menuOption;
-                 duration = LoungeConstants.DURATIONS.keySet().toArray(new String[0])[menuOption];
+                duration = LoungeConstants.DURATIONS.keySet().toArray(new String[0])[menuOption];
 
 
 //                System.out.printf("Confirm? : Y/N \n");
