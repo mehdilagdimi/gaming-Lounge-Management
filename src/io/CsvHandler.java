@@ -20,9 +20,12 @@ public class CsvHandler {
     private void createFile(String fileName) {
         try {
             this.file = new File(fileName);
-            if (!this.file.isFile()) {
-                this.csvFile = new FileWriter(fileName);
-            }
+//            if (!this.file.isFile()) {
+                this.csvFile = new FileWriter(fileName, true);
+//            }
+//            else {
+//                this.csvFile = new FileWriter(fileName, true);
+//            }
 
         } catch (IOException e) {
             System.out.println("Error occured");

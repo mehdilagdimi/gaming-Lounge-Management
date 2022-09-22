@@ -35,8 +35,8 @@ public class Lounge {
 
         Scanner input = new Scanner(System.in);
 
+        System.out.println("Welcome to The Gaming Lounge Platform!");
         while (repeat) {
-            System.out.println("Welcome to The Gaming Lounge Platform!");
             System.out.println("Add a new session? : Y/N");
             start = input.next();
             if (start.compareToIgnoreCase("Y") == 0) {
@@ -93,8 +93,7 @@ public class Lounge {
 //                start = input.next();
 //                if (input.next().compareToIgnoreCase("Y") == 0) {
 
-                System.out.println("time :" + startTime);
-                System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
+//                System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
                 Station stationObj = new Station(stationNum, console);
                 PlaySession clientSession = new PlaySession(stationObj, game, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
 

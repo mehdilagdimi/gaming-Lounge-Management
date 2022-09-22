@@ -5,6 +5,8 @@ import util.StringHandler;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,7 +29,7 @@ public class PlaySession {
 
     public Station station;
 
-    private String[] dataRecord = new String[6];
+    private String[] dataRecord = new String[8];
 
 
 
@@ -85,7 +87,11 @@ public class PlaySession {
 
     private void concatenateData() {
         //add all data into an array
-        StringHandler.addAll(this.dataRecord, this.firstName, this.lastName, Integer.toString(this.station.stationNum), this.game, Integer.toString(this.duration), Integer.toString(pricePaid));
+//        LocalTime startHourNoMin = this.startHour.truncatedTo(ChronoUnit.MINUTES);
+//        String formattedStartHour = startHourNoMin.toString();
+        String startHourStr = this.startHour.toString();
+        String formattedDate = this.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        StringHandler.addAll(this.dataRecord, this.firstName, this.lastName, Integer.toString(this.station.stationNum), this.game, startHourStr, Integer.toString(this.duration), Integer.toString(pricePaid), formattedDate);
     }
 
     public void saveSession(String fileName){
@@ -97,8 +103,8 @@ public class PlaySession {
     }
 
     private void startOnTime(LocalTime startHour) {
+        this.startHour = startHour;
             //Time the function execution
-
         // after terminate the session
         this.terminateSession();
     }
