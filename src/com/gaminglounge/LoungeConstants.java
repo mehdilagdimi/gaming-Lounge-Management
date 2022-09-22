@@ -8,13 +8,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public final class LoungeConstants {
+    private static final String DATA_FILE = "Gaming_Lounge_Data.txt";
+    public static final int NUM_STATIONS = 9;
     public static final int ACTIVE_CAPACITY = 9;
     public static final int WAITING_CAPACITY = 8;
-    private LoungeConstants() {
-        throw new AssertionError();
-    } // make constructor private to prevent instantiation
 
-    public static final int numStations = 7;
     //    public static final String[] consoles = {"PS5", "PS5", "XBOX", "Xbox","Switch", "Switch"};
     public static Map<String, Integer> CONSOLES;
     public static Map<String, Integer> SCREENS;
@@ -23,6 +21,14 @@ public final class LoungeConstants {
     public static Map<String, ArrayList<String>> GAMES;
 
     public static short[] prices = {5, 10, 18, 40, 65};
+
+    private LoungeConstants() {
+        throw new AssertionError();
+    } // make constructor private to prevent instantiation
+
+    public static String getDataFile(){
+        return DATA_FILE;
+    }
 
     static {
         CONSOLES = new TreeMap<String, Integer>(Map.ofEntries(

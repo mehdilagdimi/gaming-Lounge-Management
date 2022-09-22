@@ -1,5 +1,7 @@
 package com.gaminglounge;
 
+import io.CsvHandler;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Scanner;
 
 public class PlaySession {
     Scanner scanner = new Scanner(System.in);
+    CsvHandler csvHandler;
     private String firstName;
     private String lastName;
     private String code;
@@ -21,9 +24,11 @@ public class PlaySession {
 
     public Station station;
 
+
+
     public PlaySession(Station station, LocalTime startHour, String duration) {
         this.station = station;
-//        this.pricePaid = setPricePaid(duration);
+        this.pricePaid = setPricePaid(duration);
         this.date = LocalDate.now();
         this.duration = setDuration(duration);
         this.setFirstName();
@@ -40,7 +45,6 @@ public class PlaySession {
 //    }
 
     public int setDuration(String durationStr) {
-        int duration;
         final Map<String, Integer> MAP = new HashMap<String, Integer>(Map.ofEntries(
                 Map.entry("1/2h", 30),
                 Map.entry("1h", 60),
@@ -52,9 +56,11 @@ public class PlaySession {
     }
 
     public int getPricePaid() {
-        if(duration != 0 && pricePaid == 0){
+        System.out.println("duraiton type :" + this.duration);
+        if(this.duration != 0 && this.pricePaid == 0){
             System.err.println("Something went wrong calculating paid amount");
         }
+        //use switch case to give price reductions
         return this.pricePaid;
     }
     public int setPricePaid(String durationStr) {
@@ -70,12 +76,17 @@ public class PlaySession {
         this.lastName = scanner.next();
     }
 
+    public void saveSession(String fileName){
+        this.csvHandler = new CsvHandler(fileName);
+    }
+
     private void startOnTime(LocalTime startHour) {
             //Time the function execution
 
         // after terminate the session
         this.terminateSession();
     }
+
     public void terminateSession(){
         this.isFinished = true;
         //turn off the station

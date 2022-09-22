@@ -1,5 +1,6 @@
 package com.gaminglounge;
 
+import io.CsvHandler;
 import util.Queue;
 
 import java.util.Scanner;
@@ -14,7 +15,9 @@ public class Lounge {
 
         PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
         PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
+        //queue for active sessions
         Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
+        //queues for waiting player
         Queue<PlaySession> queueWaitingSessions = new Queue<PlaySession>(WaitingSessions);
         Queue<PlaySession> queueOnHoldSessions = new Queue<PlaySession>(WaitingSessions);
 
@@ -28,6 +31,7 @@ public class Lounge {
         String duration;
 
         boolean repeat = true;
+
 
         Scanner input = new Scanner(System.in);
         System.out.println("Welcome to The Gaming Lounge Platform!");
@@ -92,8 +96,10 @@ public class Lounge {
                 System.out.println("time :" + startTime);
                 System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
                 Station stationObj = new Station(stationNum, console);
-                PlaySession client = new PlaySession(stationObj, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
-//                repeat = false;
+                PlaySession clientSession = new PlaySession(stationObj, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+                clientSession.saveSession(LoungeConstants.getDataFile());
+
+                totalRevenue += clientSession.getPricePaid();
 
             }
         }
