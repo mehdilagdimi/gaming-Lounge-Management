@@ -1,6 +1,7 @@
 package com.gaminglounge;
 
 import io.CsvHandler;
+import util.StringHandler;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,6 +16,8 @@ public class PlaySession {
     private String firstName;
     private String lastName;
     private String code;
+
+    private String game;
     private int pricePaid;
     public LocalDate date;
     public LocalTime startHour;
@@ -24,16 +27,20 @@ public class PlaySession {
 
     public Station station;
 
+    private String[] dataRecord = new String[6];
 
 
-    public PlaySession(Station station, LocalTime startHour, String duration) {
+
+    public PlaySession(Station station, String game, LocalTime startHour, String duration) {
         this.station = station;
+        this.game = game;
         this.pricePaid = setPricePaid(duration);
         this.date = LocalDate.now();
         this.duration = setDuration(duration);
         this.setFirstName();
         this.setLastName();
         this.startOnTime(startHour);
+        this.concatenateData();
     }
 
 //    public int getPricePaid() {
@@ -76,8 +83,17 @@ public class PlaySession {
         this.lastName = scanner.next();
     }
 
+    private void concatenateData() {
+        //add all data into an array
+        StringHandler.addAll(this.dataRecord, this.firstName, this.lastName, Integer.toString(this.station.stationNum), this.game, Integer.toString(this.duration), Integer.toString(pricePaid));
+    }
+
     public void saveSession(String fileName){
+        //concatenate array elements into one single string with ',' delimiter
+        String dataRecordStr = String.join(",", this.dataRecord) + ";";
         this.csvHandler = new CsvHandler(fileName);
+        //write data to file
+        this.csvHandler.writeToFile(dataRecordStr);
     }
 
     private void startOnTime(LocalTime startHour) {
@@ -91,9 +107,7 @@ public class PlaySession {
         this.isFinished = true;
         //turn off the station
         this.station.turnOff();
-
         //then remove session from array of ACTIVE SESSIONS
 
     }
-
 }

@@ -34,10 +34,10 @@ public class Lounge {
 
 
         Scanner input = new Scanner(System.in);
-        System.out.println("Welcome to The Gaming Lounge Platform!");
-        System.out.println("Add a new session? : Y/N");
 
         while (repeat) {
+            System.out.println("Welcome to The Gaming Lounge Platform!");
+            System.out.println("Add a new session? : Y/N");
             start = input.next();
             if (start.compareToIgnoreCase("Y") == 0) {
                 System.out.printf("Choose station N° :  \n");
@@ -96,8 +96,12 @@ public class Lounge {
                 System.out.println("time :" + startTime);
                 System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
                 Station stationObj = new Station(stationNum, console);
-                PlaySession clientSession = new PlaySession(stationObj, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+                PlaySession clientSession = new PlaySession(stationObj, game, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+
+                //save session to data file
                 clientSession.saveSession(LoungeConstants.getDataFile());
+
+                //read sessions from data file
 
                 totalRevenue += clientSession.getPricePaid();
 

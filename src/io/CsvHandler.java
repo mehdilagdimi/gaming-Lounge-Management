@@ -40,4 +40,18 @@ public class CsvHandler {
         }
 
     }
+    public void readFromFile(String fileName) {
+//        try {
+////            this.csvFile.close();
+//        } catch (IOException e) {
+//            System.out.println("Error occured");
+//            e.printStackTrace();
+//        }
+    }
+    public void readFromFileByMonth(String fileName) {
+        //
+    }
+    public void readFromFileByDay(String fileName) {
+        //
+    }
 }

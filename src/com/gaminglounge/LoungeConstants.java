@@ -14,8 +14,8 @@ public final class LoungeConstants {
     public static final int WAITING_CAPACITY = 8;
 
     //    public static final String[] consoles = {"PS5", "PS5", "XBOX", "Xbox","Switch", "Switch"};
-    public static Map<String, Integer> CONSOLES;
-    public static Map<String, Integer> SCREENS;
+    public static final Map<String, Integer> CONSOLES;
+    public static final Map<String, Integer> SCREENS;
     public static Map<Integer, String> STATIONS;
     public static Map<String, Integer> DURATIONS;
     public static Map<String, ArrayList<String>> GAMES;
