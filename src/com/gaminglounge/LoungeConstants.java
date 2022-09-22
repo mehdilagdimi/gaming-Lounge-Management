@@ -9,11 +9,13 @@ import java.util.TreeMap;
 
 public final class LoungeConstants {
     private static final String DATA_FILE = "Gaming_Lounge_Data.txt";
+    private static final String DATA_SERIALIZE_FILE = "Gaming_Lounge.ser";
     public static final int NUM_STATIONS = 9;
     public static final int ACTIVE_CAPACITY = 9;
-    public static final int WAITING_CAPACITY = 8;
+    public static final int WAITING_CAPACITY = 9; //Make it 8 just to in case a station is empty but no ones chooses it in the waiting list
 
     //    public static final String[] consoles = {"PS5", "PS5", "XBOX", "Xbox","Switch", "Switch"};
+
     public static final Map<String, Integer> CONSOLES;
     public static final Map<String, Integer> SCREENS;
     public static Map<Integer, String> STATIONS;

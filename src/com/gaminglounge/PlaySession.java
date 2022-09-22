@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Scanner;
 //import java.util.Date;
 
-public class PlaySession {
+public class PlaySession implements java.io.Serializable{
     Scanner scanner = new Scanner(System.in);
     CsvHandler csvHandler;
     private String firstName;

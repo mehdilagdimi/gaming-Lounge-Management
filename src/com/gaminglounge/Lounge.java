@@ -35,6 +35,7 @@ public class Lounge {
 
         Scanner input = new Scanner(System.in);
 
+        //use serialization of objects to save the state of the app https://www.tutorialspoint.com/java/java_serialization.htm
         System.out.println("Welcome to The Gaming Lounge Platform!");
         while (repeat) {
             System.out.println("Add a new session? : Y/N");
@@ -50,14 +51,7 @@ public class Lounge {
                 menuOption = input.nextInt();
                 stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
 
-                System.out.printf("Choose console N° :  \n");
-                for (int i = 0; i < LoungeConstants.CONSOLES.size(); i++) {
-                    //            System.out.println("\n num" + num);
-                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.CONSOLES.keySet().toArray(new String[0])[i]);
-                }
-                menuOption = input.nextInt();
-                console = LoungeConstants.CONSOLES.keySet().toArray(new String[0])[menuOption];
-
+                //GENRE OF GAME
                 System.out.println("Choose genre N° : ");
 
                 for (int i = 0; i < LoungeConstants.GAMES.size(); i++) {
@@ -67,6 +61,7 @@ public class Lounge {
                 menuOption = input.nextInt();
                 genre = LoungeConstants.GAMES.keySet().toArray(new String[0])[menuOption];
 
+                //CHOOSE GAME
                 System.out.println("Choose game N° : ");
                 for (int i = 0; i < LoungeConstants.GAMES.get(genre).size(); i++) {
                     System.out.printf("%d \t| \t %s\n", i, LoungeConstants.GAMES.get(genre).toArray(new String[0])[i]);
@@ -74,6 +69,17 @@ public class Lounge {
                 menuOption = input.nextInt();
                 game = LoungeConstants.GAMES.get(genre).toArray(new String[0])[menuOption];
 
+                //CHOOSE CONSOLE
+                System.out.printf("Choose console N° :  \n");
+                for (int i = 0; i < LoungeConstants.CONSOLES.size(); i++) {
+                    //            System.out.println("\n num" + num);
+                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.CONSOLES.keySet().toArray(new String[0])[i]);
+                }
+                menuOption = input.nextInt();
+                console = LoungeConstants.CONSOLES.keySet().toArray(new String[0])[menuOption];
+
+
+                //
                 System.out.printf("Enter start time : (Format HH:MM, Ex: 14:20) \n");
                 startTime = input.next();
                 startTime += ":00";
@@ -102,7 +108,9 @@ public class Lounge {
 
                 //read sessions from data file
 
+                //add price paid to total revenue and print it out
                 totalRevenue += clientSession.getPricePaid();
+                System.out.printf("Accumulated Revenue for the day : %d", totalRevenue);
 
             }
         }
