@@ -1,6 +1,8 @@
 package com.gaminglounge;
 
-public class Station {
+import java.io.Serializable;
+
+public class Station implements Serializable {
     public final int stationNum;
     public String gamingConsole;
     public Boolean isTurnedOn;

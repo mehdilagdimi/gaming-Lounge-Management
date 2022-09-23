@@ -1,10 +1,10 @@
 package io;
 
-import util.interfaces.AppStateManagerInterface;
+import util.interfaces.Serializer;
 
 import java.io.*;
 
-public class AppStateManager<T> {
+public class AppStateManager {
     private static String filePath;
     private static ObjectOutputStream outState;
     private static ObjectInputStream inState;
@@ -21,6 +21,8 @@ public class AppStateManager<T> {
     //Serialize
     public static<T> void serialize(T obj){
         try{
+//            File file = new File(filePath);
+//            file.createNewFile();
             FileOutputStream stateFile = new FileOutputStream(filePath);
             outState = new ObjectOutputStream(stateFile);
             outState.writeObject(obj);
@@ -28,6 +30,8 @@ public class AppStateManager<T> {
             stateFile.close();
         } catch(IOException e){
             e.printStackTrace();
+        } finally {
+
         }
     }
 

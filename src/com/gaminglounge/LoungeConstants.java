@@ -9,7 +9,9 @@ import java.util.TreeMap;
 
 public final class LoungeConstants {
     private static final String DATA_FILE = "Gaming_Lounge_Data.txt";
-    private static final String DATA_SERIALIZE_FILE = "Gaming_Lounge.ser";
+//    private static final String DATA_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\tmp.txt";
+    private static final String SESSION_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\Session_tmp.ser";
+    private static final String STATION_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\Station_tmp.ser";
     public static final int NUM_STATIONS = 9;
     public static final int ACTIVE_CAPACITY = 9;
     public static final int WAITING_CAPACITY = 9; //Make it 8 just to in case a station is empty but no ones chooses it in the waiting list
@@ -30,6 +32,12 @@ public final class LoungeConstants {
 
     public static String getDataFile(){
         return DATA_FILE;
+    }
+    public static String getSessionSerializeFile(){
+        return SESSION_SERIALIZE_FILE;
+    }
+    public static String getStationSerializeFile(){
+        return STATION_SERIALIZE_FILE;
     }
 
     static {

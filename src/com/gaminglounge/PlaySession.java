@@ -10,11 +10,11 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-//import java.util.Date;
+import java.io.Serializable;
 
-public class PlaySession implements java.io.Serializable{
-    Scanner scanner = new Scanner(System.in);
-    CsvHandler csvHandler;
+public class PlaySession implements Serializable{
+    transient Scanner scanner = new Scanner(System.in);
+    transient CsvHandler csvHandler;
     private String firstName;
     private String lastName;
     private String code;
@@ -78,11 +78,11 @@ public class PlaySession implements java.io.Serializable{
 
     public void setFirstName(){
         System.out.printf("Enter First Name N° :  \n");
-        this.firstName = scanner.next();
+        this.firstName = scanner.nextLine();
     }
     public void setLastName(){
         System.out.printf("Enter Last Name N° :  \n");
-        this.lastName = scanner.next();
+        this.lastName = scanner.nextLine();
     }
 
     private void concatenateData() {
@@ -100,6 +100,13 @@ public class PlaySession implements java.io.Serializable{
         this.csvHandler = new CsvHandler(fileName);
         //write data to file
         this.csvHandler.writeToFile(dataRecordStr);
+    }
+    public void readSession(String fileName){
+        //concatenate array elements into one single string with ',' delimiter
+        this.csvHandler = new CsvHandler(fileName);
+
+        //write data to file
+        this.csvHandler.readFromFile();
     }
 
     private void startOnTime(LocalTime startHour) {

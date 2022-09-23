@@ -1,5 +1,6 @@
 package com.gaminglounge;
 
+import io.AppStateManager;
 import io.CsvHandler;
 import util.Queue;
 
@@ -11,7 +12,6 @@ import java.util.List;
 
 public class Lounge {
     public static void main(String[] args) {
-//        List<PlaySession> listOfSessions = new ArrayList<PlaySession>();
 
         PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
         PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
@@ -35,7 +35,7 @@ public class Lounge {
 
         Scanner input = new Scanner(System.in);
 
-        //use serialization of objects to save the state of the app https://www.tutorialspoint.com/java/java_serialization.htm
+        //use serialization of objects to save the state of the app
         System.out.println("Welcome to The Gaming Lounge Platform!");
         while (repeat) {
             System.out.println("Add a new session? : Y/N");
@@ -101,19 +101,31 @@ public class Lounge {
 
 //                System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
                 Station stationObj = new Station(stationNum, console);
+
+                //set file path for serialization
+                AppStateManager.setPath(LoungeConstants.getStationSerializeFile());
+
+                //save/serialize created station object
+                AppStateManager.<Station>serialize(stationObj);
+
                 PlaySession clientSession = new PlaySession(stationObj, game, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+
+                //set file path for serialization
+                AppStateManager.setPath(LoungeConstants.getSessionSerializeFile());
+                //save/serialize created station object
+                AppStateManager.<PlaySession>serialize(clientSession);
 
                 //save session to data file
                 clientSession.saveSession(LoungeConstants.getDataFile());
 
                 //read sessions from data file
+                clientSession.readSession(LoungeConstants.getDataFile());
 
                 //add price paid to total revenue and print it out
                 totalRevenue += clientSession.getPricePaid();
-                System.out.printf("Accumulated Revenue for the day : %d", totalRevenue);
+                System.out.printf("Accumulated Revenue for the day : %dDH \n", totalRevenue);
 
             }
         }
     }
-
 }

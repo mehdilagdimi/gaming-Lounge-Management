@@ -3,8 +3,10 @@ package io;
 import com.gaminglounge.PlaySession;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class CsvHandler {
 
@@ -45,8 +47,19 @@ public class CsvHandler {
         }
 
     }
-    public void readFromFile(String fileName) {
-
+    public void readFromFile() {
+        try {
+            Scanner sc = new Scanner(new File(this.fileName));
+            //parsing a CSV file into the constructor of Scanner class
+            sc.useDelimiter(",");
+            //setting comma as delimiter pattern
+            while (sc.hasNext()) {
+                System.out.println("DATA : " + sc.next());
+            }
+            sc.close();
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
     public void readFromFileByMonth(String fileName) {
         //
