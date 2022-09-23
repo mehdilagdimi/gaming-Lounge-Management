@@ -1,5 +1,7 @@
 package io;
 
+import com.gaminglounge.PlaySession;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

@@ -1,5 +1,7 @@
 package io;
 
+import util.interfaces.AppStateManagerInterface;
+
 import java.io.*;
 
 public class AppStateManager<T> {
@@ -7,7 +9,7 @@ public class AppStateManager<T> {
     private static ObjectOutputStream outState;
     private static ObjectInputStream inState;
 
-    public T obj = null;
+
 
     private AppStateManager(){
     }
@@ -17,7 +19,7 @@ public class AppStateManager<T> {
     }
 
     //Serialize
-    public static void serialize(T obj){
+    public static<T> void serialize(T obj){
         try{
             FileOutputStream stateFile = new FileOutputStream(filePath);
             outState = new ObjectOutputStream(stateFile);
@@ -30,20 +32,20 @@ public class AppStateManager<T> {
     }
 
     //Deserialize
-    public static void deserialize(){
+    public static<T> T deserialize(){
         try{
             FileInputStream stateFile = new FileInputStream(filePath);
             inState = new ObjectInputStream(stateFile);
-            obj = (T) inState.readObject();
+            T obj = (T) inState.readObject();
             inState.close();
             stateFile.close();
-//            return obj;
+            return obj;
         } catch(IOException e){
             e.printStackTrace();
         } catch(ClassNotFoundException e){
             e.printStackTrace();
-        } catch(FileNotFoundException e){
-            e.printStackTrace();
+        } finally {
+            return null;
         }
     }
 }
