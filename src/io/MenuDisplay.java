@@ -48,11 +48,9 @@ public class MenuDisplay {
         return map.keySet().toArray(t)[menuOption];
     }
 
-    public static <T1, T2> void getChoiceValue (Map<T1, T2> map, T1 key, int menuOption, GenericGetGameNameInterface getGameFunc, Supplier<T2[]> factory) {
-        T2[] t = factory.get();
-        T2 games = map.get(key);
-        String gameStr = getGameFunc.getGameName(games.get(menuOption));
-        return ;
+    public static <T1, T2> T1 getChoiceValue (List<T2> list, int menuOption, GenericGetGameNameInterface<T1, T2> getGameFunc) {
+        T1 gameStr = getGameFunc.getGameName(list.get(menuOption));
+        return gameStr;
     }
 
     public static <T1, T2> T1 getMenuChoice (Map<T1, T2> map, int menuOption, Supplier<T1[]> factory) {

@@ -68,16 +68,14 @@ public class Lounge {
 
                 //CHOOSE GAME
                 System.out.println("Choose game N° : ");
-//                for (int i = 0; i < LoungeConstants.GAMES.get(genre).size(); i++) {
-//                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.GAMES.get(genre).toArray(new String[0])[i]);
-//                }
-                //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
+          //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
                 GenericGetGameNameInterface<String, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
+
                 MenuDisplay.displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
                 menuOption = input.nextInt();
 //                game = LoungeConstants.GAMES.get(genre).toArray(new String[0])[menuOption];
 
-                game = MenuDisplay.<String, List<Game>>getChoiceValue(LoungeConstants.GAMES, genre, menuOption, lambdaGameNameFunc, () -> new String[0]);
+                game = MenuDisplay.<String, Game>getChoiceValue(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameNameFunc);
 
 
                 //CHOOSE CONSOLE
