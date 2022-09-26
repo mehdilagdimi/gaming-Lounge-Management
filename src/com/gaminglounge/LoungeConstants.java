@@ -20,7 +20,7 @@ public final class LoungeConstants {
     public static final Map<String, Integer> SCREENS;
     public static Map<Integer, String> STATIONS;
     public static Map<String, Integer> DURATIONS;
-    public static Map<String, ArrayList<String>> GAMES;
+    public static Map<String, List<Game>> GAMES;
 
     public static short[] prices = {5, 10, 18, 40, 65};
 
@@ -34,10 +34,10 @@ public final class LoungeConstants {
 
     //initialize games
     public static Game FIFA = new Game("FIFA", new ArrayList(Arrays.asList(PS5, XBOX)));
-    public static Game ASSASINS_CREED = new Game("FIFA", new ArrayList(Arrays.asList(PS5, XBOX)));
-    public static Game PES  = new Game("FIFA", new ArrayList(Arrays.asList(PS5)));
-    public static Game COUNTER_STRIKE  = new Game("FIFA", new ArrayList(Arrays.asList(XBOX)));
-    public static Game MARIO_KART  = new Game("FIFA", new ArrayList(Arrays.asList(SWITCH)));
+    public static Game ASSASSINS_CREED = new Game("Assassin's Creed", new ArrayList(Arrays.asList(PS5, XBOX)));
+    public static Game PES  = new Game("PES", new ArrayList(Arrays.asList(PS5)));
+    public static Game COUNTER_STRIKE  = new Game("Counter-Strike", new ArrayList(Arrays.asList(XBOX)));
+    public static Game MARIO_KART  = new Game("Mario Kart", new ArrayList(Arrays.asList(SWITCH)));
 
 
 
@@ -74,20 +74,22 @@ public final class LoungeConstants {
                 Map.entry("SAMSUNG", 2)
         ));
 
-        ArrayList<String> football = new ArrayList<String>(){
+        List<Game> football = new ArrayList<Game>(){
             {
-                add("FIFA");
-                add("PES");
+                add(FIFA);
+                add(PES);
             }
         };
 
-        ArrayList<String> war = new ArrayList<String>(){
+        List<Game> war = new ArrayList<Game>(){
             {
-                add("Counter-Strike");
-                add("Assassin's Creed");
+                add(COUNTER_STRIKE);
+                add(ASSASSINS_CREED);
+                add(MARIO_KART);
             }
         };
-        GAMES = new TreeMap<String, ArrayList<String>>(Map.ofEntries(
+
+        GAMES = new TreeMap<String, List<Game>>(Map.ofEntries(
                 Map.entry("WAR", war),
                 Map.entry("FOOTBALL", football)
         ));

@@ -2,7 +2,10 @@ package com.gaminglounge;
 
 import io.AppStateManager;
 import io.CsvHandler;
+import io.MenuDisplay;
 import util.Queue;
+import util.interfaces.GenericGetGameNameInterface;
+import util.interfaces.GetGameNameInterface;
 
 import java.util.Scanner;
 import java.time.LocalTime;
@@ -44,33 +47,38 @@ public class Lounge {
             System.out.println("Add a new session? : Y/N");
             start = input.next();
             if (start.compareToIgnoreCase("Y") == 0) {
+
+                //CHOOSE STATION
                 System.out.printf("Choose station N° :  \n");
                 System.out.printf("\t--- Stations ---\n");
                 System.out.printf("Station N° \t | \tTV Screen \n");
-                for (int num : LoungeConstants.STATIONS.keySet()) {
-                    //            System.out.println("\n num" + num);
-                    System.out.printf("%d \t| \t %s\n", num, LoungeConstants.STATIONS.get(num));
-                }
+                MenuDisplay.<Integer, String>display(LoungeConstants.STATIONS);
                 menuOption = input.nextInt();
                 stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
 
+
+
                 //GENRE OF GAME
                 System.out.println("Choose genre N° : ");
-
-                for (int i = 0; i < LoungeConstants.GAMES.size(); i++) {
-//                    String genre = LoungeConstants.GAMES.keySet().toArray(new String[0])[i];
-                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.GAMES.keySet().toArray(new String[0])[i]);
-                }
+                MenuDisplay.<String, List<Game>>displayKeySetArr(LoungeConstants.GAMES, () -> new String[0]);
                 menuOption = input.nextInt();
-                genre = LoungeConstants.GAMES.keySet().toArray(new String[0])[menuOption];
+                genre = MenuDisplay.<String, List<Game>>getChoiceValueKeySet(LoungeConstants.GAMES, menuOption, () -> new String[0]);
+
+
 
                 //CHOOSE GAME
                 System.out.println("Choose game N° : ");
-                for (int i = 0; i < LoungeConstants.GAMES.get(genre).size(); i++) {
-                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.GAMES.get(genre).toArray(new String[0])[i]);
-                }
+//                for (int i = 0; i < LoungeConstants.GAMES.get(genre).size(); i++) {
+//                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.GAMES.get(genre).toArray(new String[0])[i]);
+//                }
+                //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
+                GenericGetGameNameInterface<String, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
+                MenuDisplay.displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
                 menuOption = input.nextInt();
-                game = LoungeConstants.GAMES.get(genre).toArray(new String[0])[menuOption];
+//                game = LoungeConstants.GAMES.get(genre).toArray(new String[0])[menuOption];
+
+                game = MenuDisplay.<String, List<Game>>getChoiceValue(LoungeConstants.GAMES, genre, menuOption, lambdaGameNameFunc, () -> new String[0]);
+
 
                 //CHOOSE CONSOLE
                 System.out.printf("Choose console N° :  \n");

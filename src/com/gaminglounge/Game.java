@@ -10,4 +10,8 @@ public class Game {
         this.game = game;
         this.availableOn = availableOn;
     }
+
+    public String getGame() {
+        return this.game;
+    }
 }
