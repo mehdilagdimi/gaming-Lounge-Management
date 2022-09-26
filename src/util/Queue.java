@@ -20,7 +20,11 @@ public class Queue<T> {
     }
 
     public Queue<T> remove(T session) {
-        //
+        int size = this.playSessionsArr.length;
+        for(int i = 0; i < size - 1; i++ ){
+            this.playSessionsArr[i] = this.playSessionsArr[i + 1];
+        }
+        this.playSessionsArr[size - 1] = null;
         return this;
     }
 

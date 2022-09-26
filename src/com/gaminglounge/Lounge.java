@@ -13,12 +13,15 @@ import java.util.List;
 public class Lounge {
     public static void main(String[] args) {
 
+        //static array for active sessions, no need for queue because order doesn't matter
         PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
-        PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
         //queue for active sessions
-        Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
+//        Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
+
         //queues for waiting player
+        PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
         Queue<PlaySession> queueWaitingSessions = new Queue<PlaySession>(WaitingSessions);
+        //Queues
         Queue<PlaySession> queueOnHoldSessions = new Queue<PlaySession>(WaitingSessions);
 
         int totalRevenue = 0;

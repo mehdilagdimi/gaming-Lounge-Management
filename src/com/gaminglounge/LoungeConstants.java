@@ -1,11 +1,9 @@
 package com.gaminglounge;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
+import java.util.*;
 //import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.TreeMap;
+
 
 public final class LoungeConstants {
     private static final String DATA_FILE = "Gaming_Lounge_Data.txt";
@@ -26,10 +24,30 @@ public final class LoungeConstants {
 
     public static short[] prices = {5, 10, 18, 40, 65};
 
+
+    //initialize consoles as objects
+    public static Console PS5 = new Console("PS5", 3);
+    public static Console XBOX = new Console("PS5", 4);
+    public static Console SWITCH = new Console("PS5", 2);
+
+
+
+    //initialize games
+    public static Game FIFA = new Game("FIFA", new ArrayList(Arrays.asList(PS5, XBOX)));
+    public static Game ASSASINS_CREED = new Game("FIFA", new ArrayList(Arrays.asList(PS5, XBOX)));
+    public static Game PES  = new Game("FIFA", new ArrayList(Arrays.asList(PS5)));
+    public static Game COUNTER_STRIKE  = new Game("FIFA", new ArrayList(Arrays.asList(XBOX)));
+    public static Game MARIO_KART  = new Game("FIFA", new ArrayList(Arrays.asList(SWITCH)));
+
+
+
+    //Constructor
     private LoungeConstants() {
         throw new AssertionError();
     } // make constructor private to prevent instantiation
 
+
+    //Methods
     public static String getDataFile(){
         return DATA_FILE;
     }
@@ -40,6 +58,8 @@ public final class LoungeConstants {
         return STATION_SERIALIZE_FILE;
     }
 
+
+    //USING MAPS FOR MANAGING GAMES, SCREENS and STATIONS
     static {
         CONSOLES = new TreeMap<String, Integer>(Map.ofEntries(
                 Map.entry("PS5", 3),
@@ -78,6 +98,7 @@ public final class LoungeConstants {
                 Map.entry("5h", 40),
                 Map.entry("9h", 65)
         ));
+
 
         STATIONS = new TreeMap<Integer, String>();
         int j = -1;
