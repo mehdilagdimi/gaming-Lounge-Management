@@ -1,16 +1,15 @@
 package com.gaminglounge;
 
 import io.AppStateManager;
-import io.CsvHandler;
 import io.MenuDisplay;
 import util.Queue;
 import util.interfaces.GenericGetGameNameInterface;
-import util.interfaces.GetGameNameInterface;
+import util.interfaces.GetGameConsolesInterface;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Lounge {
@@ -68,13 +67,10 @@ public class Lounge {
 
                 //CHOOSE GAME
                 System.out.println("Choose game N° : ");
-          //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
+                //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
                 GenericGetGameNameInterface<String, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
-
                 MenuDisplay.displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
                 menuOption = input.nextInt();
-//                game = LoungeConstants.GAMES.get(genre).toArray(new String[0])[menuOption];
-
                 game = MenuDisplay.<String, Game>getChoiceValue(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameNameFunc);
 
 
@@ -84,6 +80,8 @@ public class Lounge {
                     //            System.out.println("\n num" + num);
                     System.out.printf("%d \t| \t %s\n", i, LoungeConstants.CONSOLES.keySet().toArray(new String[0])[i]);
                 }
+                GetGameConsolesInterface<Console, Game> lambdaGameConsoles = (gameObj) -> gameObj.getAvailableOn();
+                MenuDisplay.<Console, Game>displayConsoles(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameConsoles);
                 menuOption = input.nextInt();
                 console = LoungeConstants.CONSOLES.keySet().toArray(new String[0])[menuOption];
 
