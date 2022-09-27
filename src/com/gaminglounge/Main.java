@@ -5,6 +5,7 @@ import io.MenuDisplay;
 import util.TimerHelper;
 import util.interfaces.GenericGetGameNameInterface;
 import util.interfaces.GetGameConsolesInterface;
+import util.interfaces.GetScreenFromStation;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -38,9 +39,11 @@ public class Main {
         int stationNum;
 
         String start;
-        String console, genre, game;
+        String console, genre;
         String startTime;
         String duration;
+
+        Game game;
 
         boolean repeat = true;
 
@@ -58,7 +61,8 @@ public class Main {
                 System.out.printf("Choose station N° :  \n");
                 System.out.printf("\t--- Stations ---\n");
                 System.out.printf("Station N° \t | \tTV Screen \n");
-                MenuDisplay.<Integer, String>display(LoungeConstants.STATIONS);
+                GetScreenFromStation<String, Station> lambdaFuncGetScreen = (stationObj) -> stationObj.getScreen();
+                MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
                 menuOption = input.nextInt();
                 stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
 
@@ -75,33 +79,28 @@ public class Main {
                 //CHOOSE GAME
                 System.out.println("Choose game N° : ");
                 //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
-                GenericGetGameNameInterface<String, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
-                MenuDisplay.displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
+                GenericGetGameNameInterface<Game, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
+                MenuDisplay.<Game, Game>displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
                 menuOption = input.nextInt();
-                game = MenuDisplay.<String, Game>getChoiceValue(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameNameFunc);
+                game = MenuDisplay.<Game, Game>getChoiceValue(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameNameFunc);
 
 
                 //CHOOSE CONSOLE
                 System.out.printf("Choose console N° :  \n");
-                for (int i = 0; i < LoungeConstants.CONSOLES.size(); i++) {
-                    //            System.out.println("\n num" + num);
-                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.CONSOLES.keySet().toArray(new String[0])[i]);
-                }
+//                for (int i = 0; i < LoungeConstants.CONSOLES.size(); i++) {
+//                    //            System.out.println("\n num" + num);
+//                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.CONSOLES.keySet().toArray(new String[0])[i]);
+//                }
                 GetGameConsolesInterface<Console, Game> lambdaGameConsoles = (gameObj) -> gameObj.getAvailableOn();
-                MenuDisplay.<Console, Game>displayConsoles(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameConsoles);
+                MenuDisplay.<Console, Game>displayConsoles(game, menuOption, lambdaGameConsoles);
+
+
+
                 menuOption = input.nextInt();
                 console = LoungeConstants.CONSOLES.keySet().toArray(new String[0])[menuOption];
 
 
-                //REMEVOE THIS
-//                System.out.printf("Enter start time : (Format HH:MM, Ex: 14:20) \n");
-//                startTime = input.next();
-//                startTime += ":00";
-//
-//                //get starting time based on occupied stations chosen
-//                Timer timer = new Timer();
-//                timer.getStartTime();
-
+                // CHOOSE DURATION
                 System.out.printf("Choose play time N° :  \n");
                 System.out.printf("N° \t | \tPlay Time | \tPrice\n");
                 int i = 0;
@@ -119,7 +118,9 @@ public class Main {
 //                if (input.next().compareToIgnoreCase("Y") == 0) {
 
 //                System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
-                Station stationObj = new Station(stationNum, console);
+//                Station stationObj = new Station(stationNum, console);
+                Station stationObj = MenuDisplay.<Integer, Station>getStation(LoungeConstants.STATIONS, menuOption);
+
 
                 //set file path for serialization
                 AppStateManager.setPath(LoungeConstants.getStationSerializeFile());
@@ -128,7 +129,7 @@ public class Main {
                 AppStateManager.<Station>serialize(stationObj);
 
                 //create session object
-                PlaySession clientSession = new PlaySession(stationObj, game, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+                PlaySession clientSession = new PlaySession(stationObj, game, duration);
                 numOfClients++;
 
                 if(numOfClients < LoungeConstants.ACTIVE_CAPACITY){

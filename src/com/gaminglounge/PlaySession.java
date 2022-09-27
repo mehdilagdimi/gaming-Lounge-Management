@@ -18,7 +18,7 @@ public class PlaySession implements Serializable{
     private String lastName;
     private String code;
 
-    private String game;
+    private Game game;
     private int pricePaid;
     public LocalDate date;
     public LocalTime startHour;
@@ -32,7 +32,7 @@ public class PlaySession implements Serializable{
 
 
 
-    public PlaySession(Station station, String game, LocalTime startHour, String duration) {
+    public PlaySession(Station station, Game game, String duration) {
         this.station = station;
         this.game = game;
         this.pricePaid = setPricePaid(duration);
@@ -40,7 +40,7 @@ public class PlaySession implements Serializable{
         this.duration = setDuration(duration);
         this.setFirstName();
         this.setLastName();
-        this.startOnTime(startHour);
+        this.startOnTime();
         this.concatenateData();
     }
 
@@ -90,7 +90,7 @@ public class PlaySession implements Serializable{
 //        String formattedStartHour = startHourNoMin.toString();
         String startHourStr = this.startHour.toString();
         String formattedDate = this.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        StringHandler.addAll(this.dataRecord, this.firstName, this.lastName, Integer.toString(this.station.stationNum), this.game, startHourStr, Integer.toString(this.duration), Integer.toString(pricePaid), formattedDate);
+        StringHandler.addAll(this.dataRecord, this.firstName, this.lastName, Integer.toString(this.station.stationNum), this.game.getGameName(), startHourStr, Integer.toString(this.duration), Integer.toString(pricePaid), formattedDate);
     }
 
     public void saveSession(String fileName){
@@ -108,8 +108,8 @@ public class PlaySession implements Serializable{
         this.csvHandler.readFromFile();
     }
 
-    private void startOnTime(LocalTime startHour) {
-        this.startHour = startHour;
+    private void startOnTime() {
+        this.startHour = LocalTime.now().truncatedTo(ChronoUnit.MINUTES);
         //Time the function execution
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {

@@ -2,6 +2,7 @@ package com.gaminglounge;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.Arrays;
 //import java.util.HashMap;
 
 
@@ -20,7 +21,7 @@ public final class LoungeConstants {
 
     public static final Map<String, Integer> CONSOLES;
     public static final Map<String, Integer> SCREENS;
-    public static Map<Integer, String> STATIONS;
+    public static Map<Integer, Station> STATIONS;
     public static Map<String, Integer> DURATIONS;
     public static Map<String, List<Game>> GAMES;
 
@@ -29,17 +30,29 @@ public final class LoungeConstants {
 
     //initialize consoles as objects
     public static Console PS5 = new Console("PS5", 3);
-    public static Console XBOX = new Console("PS5", 4);
-    public static Console SWITCH = new Console("PS5", 2);
+    public static Console XBOX = new Console("XBOX", 4);
+    public static Console SWITCH = new Console("SWITCH", 2);
+
+
+    //initialize consoles as objects
+    public static Station ASUS0 = new Station("ASUS");
+    public static Station ASUS1 = new Station("ASUS");
+    public static Station ASUS2 = new Station("ASUS");
+    public static Station DELL0 = new Station("DELL");
+    public static Station DELL1 = new Station("DELL");
+    public static Station DELL2 = new Station("DELL");
+    public static Station SAMSUNG0 = new Station("SAMSUNG");
+    public static Station SAMSUNG1 = new Station("SAMSUNG");
+    public static Station HP0 = new Station("HP");
 
 
 
     //initialize games
-    public static Game FIFA = new Game("FIFA", new ArrayList(Arrays.asList(PS5, XBOX)));
-    public static Game ASSASSINS_CREED = new Game("Assassin's Creed", new ArrayList(Arrays.asList(PS5, XBOX)));
-    public static Game PES  = new Game("PES", new ArrayList(Arrays.asList(PS5)));
-    public static Game COUNTER_STRIKE  = new Game("Counter-Strike", new ArrayList(Arrays.asList(XBOX)));
-    public static Game MARIO_KART  = new Game("Mario Kart", new ArrayList(Arrays.asList(SWITCH)));
+    public static Game FIFA = new Game("FIFA", Arrays.asList(PS5, XBOX));
+    public static Game ASSASSINS_CREED = new Game("Assassin's Creed",  Arrays.asList(PS5, XBOX));
+    public static Game PES  = new Game("PES",  Arrays.asList(PS5));
+    public static Game COUNTER_STRIKE  = new Game("Counter-Strike", Arrays.asList(XBOX));
+    public static Game MARIO_KART  = new Game("Mario Kart", Arrays.asList(SWITCH));
 
 
 
@@ -103,20 +116,33 @@ public final class LoungeConstants {
                 Map.entry("9h", 65)
         ));
 
+        //Keys are station numbers and values are stations
+        STATIONS = new TreeMap<Integer, Station>(Map.ofEntries(
+                Map.entry(0, ASUS0),
+                Map.entry(1, ASUS1),
+                Map.entry(2, ASUS2),
+                Map.entry(3, DELL0),
+                Map.entry(4, DELL1),
+                Map.entry(5, DELL2),
+                Map.entry(6, SAMSUNG0),
+                Map.entry(7, SAMSUNG1),
+                Map.entry(8, HP0)
+        ));
 
-        STATIONS = new TreeMap<Integer, String>();
-        int j = -1;
-        for (String screen : SCREENS.keySet()) {
-//            System.out.println("\nscreen in cstsn : " + screen + ", num of screens : " + SCREENS.get(screen));
-            int numScreens = SCREENS.get(screen);
-//            j = k;
-//            int k = j + numScreens;
-            int k = j + 1;
-            for (; j + 1 < k + numScreens; j++) {
-                STATIONS.put(j + 1, screen);
-            }
-//            k = j;
-        }
+
+//        STATIONS = new TreeMap<Integer, String>();
+//        int j = -1;
+//        for (String screen : SCREENS.keySet()) {
+////            System.out.println("\nscreen in cstsn : " + screen + ", num of screens : " + SCREENS.get(screen));
+//            int numScreens = SCREENS.get(screen);
+////            j = k;
+////            int k = j + numScreens;
+//            int k = j + 1;
+//            for (; j + 1 < k + numScreens; j++) {
+//                STATIONS.put(j + 1, screen);
+//            }
+////            k = j;
+//        }
 
     }
 }

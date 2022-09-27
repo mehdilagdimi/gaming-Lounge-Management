@@ -3,14 +3,27 @@ package com.gaminglounge;
 import java.io.Serializable;
 
 public class Station implements Serializable {
-    public final int stationNum;
+    public int stationNum;
+    public String screen;
+
     public String gamingConsole;
     public Boolean isTurnedOn;
+
+    public String getScreen() {
+        return screen;
+    }
+
     public Boolean isOccupied;
 
-    public Station(int stationNum, String gamingConsole) {
+    public Station(String screen) {
+        this.screen = screen;
+    }
+
+    public void setStationNum (String console) {
         this.stationNum = stationNum;
-        this.gamingConsole = gamingConsole;
+    }
+    public void setConsole (String console) {
+        this.gamingConsole = console;
     }
 
     public void turnOn(){

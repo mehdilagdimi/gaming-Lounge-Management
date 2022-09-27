@@ -1,6 +1,8 @@
 package com.gaminglounge;
 
-public class Console {
+import java.io.Serializable;
+
+public class Console  implements Serializable {
     public String console;
     public int units;
 
@@ -8,4 +10,12 @@ public class Console {
         this.console = console;
         this.units = units;
     }
+
+    public String getConsole() {
+        return this.console;
+    }
+
+    public Boolean isTurnedOn = false;
+
+
 }
