@@ -1,15 +1,18 @@
 package io;
 
+import com.gaminglounge.PlaySession;
 import util.interfaces.Serializer;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class AppStateManager {
     private static String filePath;
     private static ObjectOutputStream outState;
     private static ObjectInputStream inState;
 
-
+    public static Queue<PlaySession> WaitingSessions = new LinkedList<>();
 
     private AppStateManager(){
     }

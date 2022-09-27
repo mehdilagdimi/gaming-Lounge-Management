@@ -28,8 +28,7 @@ public class Main {
 //        //Queues
 //        Queue<PlaySession> queueOnHoldSessions = new Queue<PlaySession>(WaitingSessions);
 
-        //Queue
-        Queue<PlaySession> WaitingSessions = new LinkedList<>();
+
 
         //number of active clients
         int numOfClients = 0;
@@ -135,7 +134,7 @@ public class Main {
                 if(numOfClients < LoungeConstants.ACTIVE_CAPACITY){
                     ActiveSessions[stationNum] = clientSession;
                 } else {
-                    WaitingSessions.add(clientSession);
+                    AppStateManager.WaitingSessions.add(clientSession);
                 }
 
 

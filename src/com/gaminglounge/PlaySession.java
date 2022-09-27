@@ -1,5 +1,6 @@
 package com.gaminglounge;
 
+import io.AppStateManager;
 import io.CsvHandler;
 import util.StringHandler;
 
@@ -117,17 +118,21 @@ public class PlaySession implements Serializable{
                 terminateSession();
             };
         };
-        timer.schedule(task, this.duration);
+        //convert minutes to seconds by *60
+        timer.schedule(task, this.duration * 60);
         // after terminate the session
         this.terminateSession();
     }
 
     public void terminateSession(){
         this.isFinished = true;
+        //wait 20 seconds before turning it off
+
         //turn off the station
         this.station.turnOff();
-        //then remove session from array of ACTIVE SESSIONS
 
+        //then remove current session object from array of ACTIVE SESSIONS
+        AppStateManager.WaitingSessions.remove(this);
         //
 
     }

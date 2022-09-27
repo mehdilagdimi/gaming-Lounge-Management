@@ -16,6 +16,8 @@ public final class LoungeConstants {
 
     //    public static final String[] consoles = {"PS5", "PS5", "XBOX", "Xbox","Switch", "Switch"};
 
+    //Queue
+
     public static final Map<String, Integer> CONSOLES;
     public static final Map<String, Integer> SCREENS;
     public static Map<Integer, String> STATIONS;

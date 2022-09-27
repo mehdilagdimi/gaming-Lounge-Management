@@ -19,9 +19,10 @@ public class Station implements Serializable {
     public void occupy(){
         isOccupied = true;
     }
+
     public void turnOff(){
         //SET A COUNT DOWN before turning the station off
-
         isTurnedOn = false;
+
     }
 }
