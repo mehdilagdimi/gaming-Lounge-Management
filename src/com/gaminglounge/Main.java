@@ -2,7 +2,7 @@ package com.gaminglounge;
 
 import io.AppStateManager;
 import io.MenuDisplay;
-import util.Timer;
+import util.TimerHelper;
 import util.interfaces.GenericGetGameNameInterface;
 import util.interfaces.GetGameConsolesInterface;
 
@@ -99,9 +99,9 @@ public class Main {
 //                startTime = input.next();
 //                startTime += ":00";
 //
-                //get starting time based on occupied stations chosen
-                Timer timer = new Timer();
-                timer.getStartTime();
+//                //get starting time based on occupied stations chosen
+//                Timer timer = new Timer();
+//                timer.getStartTime();
 
                 System.out.printf("Choose play time N° :  \n");
                 System.out.printf("N° \t | \tPlay Time | \tPrice\n");

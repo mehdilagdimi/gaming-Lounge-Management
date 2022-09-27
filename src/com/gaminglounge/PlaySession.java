@@ -7,9 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 import java.io.Serializable;
 
 public class PlaySession implements Serializable{
@@ -111,7 +109,15 @@ public class PlaySession implements Serializable{
 
     private void startOnTime(LocalTime startHour) {
         this.startHour = startHour;
-            //Time the function execution
+        //Time the function execution
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                terminateSession();
+            };
+        };
+        timer.schedule(task, this.duration);
         // after terminate the session
         this.terminateSession();
     }
