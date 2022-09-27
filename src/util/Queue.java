@@ -7,6 +7,7 @@ import com.gaminglounge.PlaySession;
 public class Queue<T> {
     private T[] playSessionsArr;
 
+
     public Queue(T[] playSession) {
         this.playSessionsArr = playSession;
     }
@@ -27,5 +28,7 @@ public class Queue<T> {
         this.playSessionsArr[size - 1] = null;
         return this;
     }
+
+
 
 }

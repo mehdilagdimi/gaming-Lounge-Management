@@ -2,29 +2,37 @@ package com.gaminglounge;
 
 import io.AppStateManager;
 import io.MenuDisplay;
-import util.Queue;
+import util.Timer;
 import util.interfaces.GenericGetGameNameInterface;
 import util.interfaces.GetGameConsolesInterface;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class Lounge {
+public class Main {
     public static void main(String[] args) {
 
         //static array for active sessions, no need for queue because order doesn't matter
         PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
-        //queue for active sessions
-//        Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
 
-        //queues for waiting player
-        PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
-        Queue<PlaySession> queueWaitingSessions = new Queue<PlaySession>(WaitingSessions);
-        //Queues
-        Queue<PlaySession> queueOnHoldSessions = new Queue<PlaySession>(WaitingSessions);
+//        //queue for active sessions
+////        Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
+//
+//        //queues for waiting player
+//        PlaySession[] WaitingSessions = new PlaySession[LoungeConstants.WAITING_CAPACITY];
+//        Queue<PlaySession> queueWaitingSessions = new Queue<PlaySession>(WaitingSessions);
+//        //Queues
+//        Queue<PlaySession> queueOnHoldSessions = new Queue<PlaySession>(WaitingSessions);
+
+        //Queue
+        Queue<PlaySession> WaitingSessions = new LinkedList<>();
+
+        //number of active clients
+        int numOfClients = 0;
 
         int totalRevenue = 0;
         int menuOption;
@@ -86,10 +94,15 @@ public class Lounge {
                 console = LoungeConstants.CONSOLES.keySet().toArray(new String[0])[menuOption];
 
 
-                //
-                System.out.printf("Enter start time : (Format HH:MM, Ex: 14:20) \n");
-                startTime = input.next();
-                startTime += ":00";
+                //REMEVOE THIS
+//                System.out.printf("Enter start time : (Format HH:MM, Ex: 14:20) \n");
+//                startTime = input.next();
+//                startTime += ":00";
+//
+                //get starting time based on occupied stations chosen
+                Timer timer = new Timer();
+                timer.getStartTime();
+
                 System.out.printf("Choose play time N° :  \n");
                 System.out.printf("N° \t | \tPlay Time | \tPrice\n");
                 int i = 0;
@@ -115,7 +128,16 @@ public class Lounge {
                 //save/serialize created station object
                 AppStateManager.<Station>serialize(stationObj);
 
+                //create session object
                 PlaySession clientSession = new PlaySession(stationObj, game, LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME), duration);
+                numOfClients++;
+
+                if(numOfClients < LoungeConstants.ACTIVE_CAPACITY){
+                    ActiveSessions[stationNum] = clientSession;
+                } else {
+                    WaitingSessions.add(clientSession);
+                }
+
 
                 //set file path for serialization
                 AppStateManager.setPath(LoungeConstants.getSessionSerializeFile());
