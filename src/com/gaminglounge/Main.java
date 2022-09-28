@@ -84,11 +84,16 @@ public class Main {
 
                 if (start.compareToIgnoreCase("Y") == 0) {
                     chooseFromOccupied = false;
-                    //CHOOSE STATION
-                    System.out.printf("\nChoose station N° :  \n");
-                    System.out.printf("\n\n\t--- Stations ---\n");
+                    //DISPLAY UNOCCUPIED STATIONS
+                    System.out.printf("\n\n\t--- STATIONS AVAILABLE---\n");
                     System.out.printf("Station N° \t | \tTV Screen \n");
                     MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
+
+//                    //CHOOSE STATION
+//                    System.out.printf("\nChoose station N° :  \n");
+//                    System.out.printf("\n--- Stations ---\n");
+//                    System.out.printf("Station N° \t | \tTV Screen \n");
+//                    MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
                 } else {
                     chooseFromOccupied = true;
                     System.out.printf("\n\n\t--- STATIONS OCCUPIED---\n");
@@ -99,7 +104,8 @@ public class Main {
                 }
 
                     menuOption = input.nextInt();
-                    stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
+//                    stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
+                    stationNum = menuOption;
 
                     //GENRE OF GAME
                     System.out.println("Choose genre N° : ");
