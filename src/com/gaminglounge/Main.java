@@ -65,15 +65,14 @@ public class Main {
 
                 if(!AppStateManager.ActiveSessions.isEmpty()){
                     //DISPLAY OCCUPIED STATIONS
+                    System.out.printf("\n\n\t--- STATIONS OCCUPIED---\n");
+                    System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
                     for(PlaySession session : AppStateManager.ActiveSessions){
-                        System.out.printf("\t--- STATIONS OCCUPIED---\n");
-                        System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
                         System.out.printf("%d \t\t | \t\t %s \t\t | \t\t %s \n", session.station.stationNum, session.station.getScreen(), session.station.console);
                     }
 
                     //DISPLAY UNOCCUPIED STATIONS
-                    System.out.printf("\t--- STATIONS AVAILABLE---\n");
-                    System.out.printf("\t--- Stations ---\n");
+                    System.out.printf("\n\n\t--- STATIONS AVAILABLE---\n");
                     System.out.printf("Station N° \t | \tTV Screen \n");
                     MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
 
@@ -86,18 +85,17 @@ public class Main {
                 if (start.compareToIgnoreCase("Y") == 0) {
                     chooseFromOccupied = false;
                     //CHOOSE STATION
-                    System.out.printf("Choose station N° :  \n");
-                    System.out.printf("\t--- Stations ---\n");
+                    System.out.printf("\nChoose station N° :  \n");
+                    System.out.printf("\n\n\t--- Stations ---\n");
                     System.out.printf("Station N° \t | \tTV Screen \n");
                     MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
                 } else {
                     chooseFromOccupied = true;
+                    System.out.printf("\n\n\t--- STATIONS OCCUPIED---\n");
+                    System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
                     for(PlaySession session : AppStateManager.ActiveSessions){
-                            System.out.printf("\t--- STATIONS OCCUPIED---\n");
-                            System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
                             System.out.printf("%d \t\t | \t\t %s \t\t | \t\t %s \n", session.station.stationNum, session.station.getScreen(), session.station.console);
                         }
-                    }
                 }
 
                     menuOption = input.nextInt();
@@ -144,10 +142,13 @@ public class Main {
 
                     //create session object
                     PlaySession clientSession = new PlaySession(LoungeConstants.STATIONS.get(stationNum), game, duration);
+                    LoungeConstants.STATIONS.get(stationNum).isOccupied = true;
                     numOfClients++;
 
 
+
                     //ADD TO ACTIVE SESSIONS OR WAITING SESSIONS
+
                     if(chooseFromOccupied && AppStateManager.WaitingSessions.size() < LoungeConstants.WAITING_CAPACITY){
                         AppStateManager.WaitingSessions.add(clientSession);
                     } else if (!chooseFromOccupied && AppStateManager.ActiveSessions.size() < LoungeConstants.ACTIVE_CAPACITY){
@@ -158,6 +159,7 @@ public class Main {
                     }
 
 
+
                     //set file path for serialization
                     AppStateManager.setPath(LoungeConstants.getSessionSerializeFile());
                     //save/serialize created station object
@@ -166,6 +168,7 @@ public class Main {
 
                     //save session to data file
                     clientSession.saveSession(LoungeConstants.getDataFile());
+
                     //read sessions from data file
                     clientSession.readSession(LoungeConstants.getDataFile());
 

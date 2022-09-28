@@ -35,7 +35,7 @@ public class PlaySession implements Serializable{
     public PlaySession(Station station, Game game, String duration) {
         this.station = station;
         //occupy station
-        this.station.occupy();
+//        this.station.occupy();
         this.game = game;
         this.pricePaid = setPricePaid(duration);
         this.date = LocalDate.now();
@@ -87,7 +87,7 @@ public class PlaySession implements Serializable{
 
     public void saveSession(String fileName){
         //concatenate array elements into one single string with ',' delimiter
-        String dataRecordStr = String.join(",", this.dataRecord) + ";";
+        String dataRecordStr = String.join(",", this.dataRecord) + "\n";
         this.csvHandler = new CsvHandler(fileName);
         //write data to file
         this.csvHandler.writeToFile(dataRecordStr);

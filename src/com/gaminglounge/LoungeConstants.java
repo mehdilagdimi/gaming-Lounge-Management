@@ -7,7 +7,8 @@ import java.util.Arrays;
 
 
 public final class LoungeConstants {
-    private static final String DATA_FILE = "Gaming_Lounge_Data.txt";
+//    private static final String DATA_FILE = "Gaming_Lounge_Data.txt";
+    private static final String DATA_FILE = "Gaming_Lounge_Data.csv";
 //    private static final String DATA_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\tmp.txt";
     private static final String SESSION_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\Session_tmp.ser";
     private static final String STATION_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\Station_tmp.ser";
