@@ -8,25 +8,25 @@ public class Station implements Serializable {
 
     public String console;
     public Boolean isTurnedOn;
-
-    public String getScreen() {
-        return screen;
-    }
-
     public Boolean isOccupied = false;
+
+
 
     public Station(String screen, int stationNum) {
         this.screen = screen;
         this.stationNum = stationNum;
     }
 
-    public void setStationNum (String console) {
-        this.stationNum = stationNum;
+    public String getScreen() {
+        return screen;
     }
+//    public void setStationNum (String console) {
+//        this.stationNum = stationNum;
+//    }
     public void setConsole (String console) {
-
         this.console = console;
-        //DECREASE NUMBER OF AVAILABLE CONSOLE
+
+        //DECREASE NUMBER OF AVAILABLE CONSOLES
         int numOfAvailableConsoles = LoungeConstants.CONSOLES.get(console);
         LoungeConstants.CONSOLES.put(console, numOfAvailableConsoles - 1);
     }
@@ -35,7 +35,7 @@ public class Station implements Serializable {
         isTurnedOn = true;
     }
     public void occupy(){
-        isOccupied = true;
+        this.isOccupied = true;
         this.turnOn();
     }
     public void turnOff(){

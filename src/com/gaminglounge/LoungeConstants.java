@@ -13,7 +13,7 @@ public final class LoungeConstants {
     private static final String STATION_SERIALIZE_FILE = "C:\\Users\\Youcode\\Documents\\GitHub\\JAVA Angular\\Gaming Lounge Management\\Station_tmp.ser";
     public static final int NUM_STATIONS = 9;
     public static final int ACTIVE_CAPACITY = 9;
-    public static final int WAITING_CAPACITY = 9; //Make it 8 just to in case a station is empty but no ones chooses it in the waiting list
+    public static final int WAITING_CAPACITY = 8; //Make it 9 maybe? just to in case a station is empty but no ones chooses it in the waiting list
 
     //    public static final String[] consoles = {"PS5", "PS5", "XBOX", "Xbox","Switch", "Switch"};
 

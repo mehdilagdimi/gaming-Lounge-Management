@@ -47,6 +47,7 @@ public class Main {
         Game game;
 
         boolean repeat = true;
+        boolean chooseFromOccupied = false;
 
 
         Scanner input = new Scanner(System.in);
@@ -67,7 +68,7 @@ public class Main {
                     for(PlaySession session : AppStateManager.ActiveSessions){
                         System.out.printf("\t--- STATIONS OCCUPIED---\n");
                         System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
-                        System.out.printf("%d \t | \t %s \t | \t %s \n", session.station.stationNum, session.station.getScreen(), session.station.console);
+                        System.out.printf("%d \t\t | \t\t %s \t\t | \t\t %s \n", session.station.stationNum, session.station.getScreen(), session.station.console);
                     }
 
                     //DISPLAY UNOCCUPIED STATIONS
@@ -83,17 +84,24 @@ public class Main {
                 } else { start = "Y";}
 
                 if (start.compareToIgnoreCase("Y") == 0) {
+                    chooseFromOccupied = false;
                     //CHOOSE STATION
                     System.out.printf("Choose station N° :  \n");
                     System.out.printf("\t--- Stations ---\n");
                     System.out.printf("Station N° \t | \tTV Screen \n");
                     MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
+                } else {
+                    chooseFromOccupied = true;
+                    for(PlaySession session : AppStateManager.ActiveSessions){
+                            System.out.printf("\t--- STATIONS OCCUPIED---\n");
+                            System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
+                            System.out.printf("%d \t\t | \t\t %s \t\t | \t\t %s \n", session.station.stationNum, session.station.getScreen(), session.station.console);
+                        }
+                    }
+                }
+
                     menuOption = input.nextInt();
                     stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
-
-                    //Create Station object
-                    Station stationObj = MenuDisplay.<Integer, Station>getStation(LoungeConstants.STATIONS, stationNum);
-
 
                     //GENRE OF GAME
                     System.out.println("Choose genre N° : ");
@@ -118,7 +126,7 @@ public class Main {
 
                     menuOption = input.nextInt();
                     console = MenuDisplay.getChoiceValueKeySet(LoungeConstants.CONSOLES, menuOption, () -> new String[0]);
-                    stationObj.setConsole(console);
+                    LoungeConstants.STATIONS.get(stationNum).setConsole(console);
 
                     // CHOOSE DURATION
                     MenuDisplay.displayDurations(LoungeConstants.DURATIONS);
@@ -131,18 +139,22 @@ public class Main {
 
 
                     //save/serialize created station object
-                    AppStateManager.<Station>serialize(stationObj);
+                    AppStateManager.<Station>serialize(LoungeConstants.STATIONS.get(stationNum));
 
 
                     //create session object
-                    PlaySession clientSession = new PlaySession(stationObj, game, duration);
+                    PlaySession clientSession = new PlaySession(LoungeConstants.STATIONS.get(stationNum), game, duration);
                     numOfClients++;
 
 
-                    if (numOfClients < LoungeConstants.ACTIVE_CAPACITY) {
-                        AppStateManager.ActiveSessions.add(clientSession);
-                    } else {
+                    //ADD TO ACTIVE SESSIONS OR WAITING SESSIONS
+                    if(chooseFromOccupied && AppStateManager.WaitingSessions.size() < LoungeConstants.WAITING_CAPACITY){
                         AppStateManager.WaitingSessions.add(clientSession);
+                    } else if (!chooseFromOccupied && AppStateManager.ActiveSessions.size() < LoungeConstants.ACTIVE_CAPACITY){
+                        AppStateManager.ActiveSessions.add(clientSession);
+                    } else  {
+                        System.out.println("!!!\tGaming Lounge is FULL\t!!!");
+                        continue;
                     }
 
 
@@ -161,9 +173,7 @@ public class Main {
                     //add price paid to total revenue and print it out
                     totalRevenue += clientSession.getPricePaid();
                     System.out.printf("Accumulated Revenue for the day : %dDH \n", totalRevenue);
-                } else {
-                    //choose from occupied posts
-                }
+
 
             }
         }
