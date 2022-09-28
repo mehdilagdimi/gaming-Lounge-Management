@@ -12,6 +12,7 @@ public class AppStateManager {
     private static ObjectOutputStream outState;
     private static ObjectInputStream inState;
 
+    public static Queue<PlaySession> ActiveSessions = new LinkedList<>();
     public static Queue<PlaySession> WaitingSessions = new LinkedList<>();
 
     private AppStateManager(){

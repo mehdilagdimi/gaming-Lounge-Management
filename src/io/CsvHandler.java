@@ -54,7 +54,7 @@ public class CsvHandler {
             sc.useDelimiter(",");
             //setting comma as delimiter pattern
             while (sc.hasNext()) {
-                System.out.println("DATA : " + sc.next());
+                System.out.println("*** " + sc.next() + " ***");
             }
             sc.close();
         } catch (FileNotFoundException e){

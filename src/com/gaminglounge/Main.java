@@ -7,6 +7,7 @@ import util.interfaces.GenericGetGameNameInterface;
 import util.interfaces.GetGameConsolesInterface;
 import util.interfaces.GetScreenFromStation;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
 
         //static array for active sessions, no need for queue because order doesn't matter
-        PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
+//        PlaySession[] ActiveSessions = new PlaySession[LoungeConstants.ACTIVE_CAPACITY];
 
 //        //queue for active sessions
 ////        Queue<PlaySession> queueActiveSessions = new Queue<PlaySession>(ActiveSessions);
@@ -50,6 +51,10 @@ public class Main {
 
         Scanner input = new Scanner(System.in);
 
+        //lambda functions for getting property of objects when calling static generic methods
+        GetScreenFromStation<String, Station> lambdaFuncGetScreen = (stationObj) -> stationObj.getScreen();
+
+
         //use serialization of objects to save the state of the app
         System.out.println("Welcome to The Gaming Lounge Platform!");
         while (repeat) {
@@ -57,102 +62,108 @@ public class Main {
             start = input.next();
             if (start.compareToIgnoreCase("Y") == 0) {
 
-                //CHOOSE STATION
-                System.out.printf("Choose station N° :  \n");
-                System.out.printf("\t--- Stations ---\n");
-                System.out.printf("Station N° \t | \tTV Screen \n");
-                GetScreenFromStation<String, Station> lambdaFuncGetScreen = (stationObj) -> stationObj.getScreen();
-                MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
-                menuOption = input.nextInt();
-                stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
+                if(!AppStateManager.ActiveSessions.isEmpty()){
+                    //DISPLAY OCCUPIED STATIONS
+                    for(PlaySession session : AppStateManager.ActiveSessions){
+                        System.out.printf("\t--- STATIONS OCCUPIED---\n");
+                        System.out.printf("Station N° \t | \tTV Screen \t | \tConsole \n");
+                        System.out.printf("%d \t | \t %s \t | \t %s \n", session.station.stationNum, session.station.getScreen(), session.station.console);
+                    }
+
+                    //DISPLAY UNOCCUPIED STATIONS
+                    System.out.printf("\t--- STATIONS AVAILABLE---\n");
+                    System.out.printf("\t--- Stations ---\n");
+                    System.out.printf("Station N° \t | \tTV Screen \n");
+                    MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
+
+                    //CHOOSE FROM OCCUPIED OR NOT STATIONS
+                    System.out.println("Choose from available posts or occupied ones? : Y for available /N for occupied");
+                    start = input.next();
+
+                } else { start = "Y";}
+
+                if (start.compareToIgnoreCase("Y") == 0) {
+                    //CHOOSE STATION
+                    System.out.printf("Choose station N° :  \n");
+                    System.out.printf("\t--- Stations ---\n");
+                    System.out.printf("Station N° \t | \tTV Screen \n");
+                    MenuDisplay.<Integer, Station>displayObjValuesArr(LoungeConstants.STATIONS, lambdaFuncGetScreen);
+                    menuOption = input.nextInt();
+                    stationNum = LoungeConstants.STATIONS.keySet().toArray(new Integer[0])[menuOption];
+
+                    //Create Station object
+                    Station stationObj = MenuDisplay.<Integer, Station>getStation(LoungeConstants.STATIONS, stationNum);
 
 
-
-                //GENRE OF GAME
-                System.out.println("Choose genre N° : ");
-                MenuDisplay.<String, List<Game>>displayKeySetArr(LoungeConstants.GAMES, () -> new String[0]);
-                menuOption = input.nextInt();
-                genre = MenuDisplay.<String, List<Game>>getChoiceValueKeySet(LoungeConstants.GAMES, menuOption, () -> new String[0]);
-
+                    //GENRE OF GAME
+                    System.out.println("Choose genre N° : ");
+                    MenuDisplay.<String, List<Game>>displayKeySetArr(LoungeConstants.GAMES, () -> new String[0]);
+                    menuOption = input.nextInt();
+                    genre = MenuDisplay.<String, List<Game>>getChoiceValueKeySet(LoungeConstants.GAMES, menuOption, () -> new String[0]);
 
 
-                //CHOOSE GAME
-                System.out.println("Choose game N° : ");
-                //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
-                GenericGetGameNameInterface<Game, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
-                MenuDisplay.<Game, Game>displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
-                menuOption = input.nextInt();
-                game = MenuDisplay.<Game, Game>getChoiceValue(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameNameFunc);
+                    //CHOOSE GAME
+                    System.out.println("Choose game N° : ");
+                    //Defining lambda function to pass as a param in MenuDisplay so to display each game name property
+                    GenericGetGameNameInterface<Game, Game> lambdaGameNameFunc = (gameObj) -> gameObj.getGame();
+                    MenuDisplay.<Game, Game>displayValuesArr(LoungeConstants.GAMES.get(genre), lambdaGameNameFunc);
+                    menuOption = input.nextInt();
+                    game = MenuDisplay.<Game, Game>getChoiceValue(LoungeConstants.GAMES.get(genre), menuOption, lambdaGameNameFunc);
 
 
-                //CHOOSE CONSOLE
-                System.out.printf("Choose console N° :  \n");
-//                for (int i = 0; i < LoungeConstants.CONSOLES.size(); i++) {
-//                    //            System.out.println("\n num" + num);
-//                    System.out.printf("%d \t| \t %s\n", i, LoungeConstants.CONSOLES.keySet().toArray(new String[0])[i]);
-//                }
-                GetGameConsolesInterface<Console, Game> lambdaGameConsoles = (gameObj) -> gameObj.getAvailableOn();
-                MenuDisplay.<Console, Game>displayConsoles(game, menuOption, lambdaGameConsoles);
+                    //CHOOSE CONSOLE
+                    System.out.printf("Choose console N° :  \n");
+                    GetGameConsolesInterface<Console, Game> lambdaGameConsoles = (gameObj) -> gameObj.getAvailableOn();
+                    MenuDisplay.<Console, Game>displayConsoles(game, menuOption, lambdaGameConsoles);
+
+                    menuOption = input.nextInt();
+                    console = MenuDisplay.getChoiceValueKeySet(LoungeConstants.CONSOLES, menuOption, () -> new String[0]);
+                    stationObj.setConsole(console);
+
+                    // CHOOSE DURATION
+                    MenuDisplay.displayDurations(LoungeConstants.DURATIONS);
+                    menuOption = input.nextInt();
+                    duration = LoungeConstants.DURATIONS.keySet().toArray(new String[0])[menuOption];
 
 
-
-                menuOption = input.nextInt();
-                console = LoungeConstants.CONSOLES.keySet().toArray(new String[0])[menuOption];
-
-
-                // CHOOSE DURATION
-                System.out.printf("Choose play time N° :  \n");
-                System.out.printf("N° \t | \tPlay Time | \tPrice\n");
-                int i = 0;
-                for (String num : LoungeConstants.DURATIONS.keySet()) {
-                    System.out.printf("%d \t| \t %s \t| \t %dDH\n", i, num, LoungeConstants.DURATIONS.get(num));
-                    i++;
-                }
-                menuOption = input.nextInt();
-//                durationOption = menuOption;
-                duration = LoungeConstants.DURATIONS.keySet().toArray(new String[0])[menuOption];
+                    //set file path for serialization
+                    AppStateManager.setPath(LoungeConstants.getStationSerializeFile());
 
 
-//                System.out.printf("Confirm? : Y/N \n");
-//                start = input.next();
-//                if (input.next().compareToIgnoreCase("Y") == 0) {
-
-//                System.out.println("time formatted:" + LocalTime.parse(startTime, DateTimeFormatter.ISO_TIME));
-//                Station stationObj = new Station(stationNum, console);
-                Station stationObj = MenuDisplay.<Integer, Station>getStation(LoungeConstants.STATIONS, menuOption);
+                    //save/serialize created station object
+                    AppStateManager.<Station>serialize(stationObj);
 
 
-                //set file path for serialization
-                AppStateManager.setPath(LoungeConstants.getStationSerializeFile());
+                    //create session object
+                    PlaySession clientSession = new PlaySession(stationObj, game, duration);
+                    numOfClients++;
 
-                //save/serialize created station object
-                AppStateManager.<Station>serialize(stationObj);
 
-                //create session object
-                PlaySession clientSession = new PlaySession(stationObj, game, duration);
-                numOfClients++;
+                    if (numOfClients < LoungeConstants.ACTIVE_CAPACITY) {
+                        AppStateManager.ActiveSessions.add(clientSession);
+                    } else {
+                        AppStateManager.WaitingSessions.add(clientSession);
+                    }
 
-                if(numOfClients < LoungeConstants.ACTIVE_CAPACITY){
-                    ActiveSessions[stationNum] = clientSession;
+
+                    //set file path for serialization
+                    AppStateManager.setPath(LoungeConstants.getSessionSerializeFile());
+                    //save/serialize created station object
+                    AppStateManager.<PlaySession>serialize(clientSession);
+
+
+                    //save session to data file
+                    clientSession.saveSession(LoungeConstants.getDataFile());
+                    //read sessions from data file
+                    clientSession.readSession(LoungeConstants.getDataFile());
+
+
+                    //add price paid to total revenue and print it out
+                    totalRevenue += clientSession.getPricePaid();
+                    System.out.printf("Accumulated Revenue for the day : %dDH \n", totalRevenue);
                 } else {
-                    AppStateManager.WaitingSessions.add(clientSession);
+                    //choose from occupied posts
                 }
-
-
-                //set file path for serialization
-                AppStateManager.setPath(LoungeConstants.getSessionSerializeFile());
-                //save/serialize created station object
-                AppStateManager.<PlaySession>serialize(clientSession);
-
-                //save session to data file
-                clientSession.saveSession(LoungeConstants.getDataFile());
-
-                //read sessions from data file
-                clientSession.readSession(LoungeConstants.getDataFile());
-
-                //add price paid to total revenue and print it out
-                totalRevenue += clientSession.getPricePaid();
-                System.out.printf("Accumulated Revenue for the day : %dDH \n", totalRevenue);
 
             }
         }

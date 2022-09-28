@@ -19,7 +19,7 @@ public final class LoungeConstants {
 
     //Queue
 
-    public static final Map<String, Integer> CONSOLES;
+    public static Map<String, Integer> CONSOLES;
     public static final Map<String, Integer> SCREENS;
     public static Map<Integer, Station> STATIONS;
     public static Map<String, Integer> DURATIONS;
@@ -35,15 +35,15 @@ public final class LoungeConstants {
 
 
     //initialize consoles as objects
-    public static Station ASUS0 = new Station("ASUS");
-    public static Station ASUS1 = new Station("ASUS");
-    public static Station ASUS2 = new Station("ASUS");
-    public static Station DELL0 = new Station("DELL");
-    public static Station DELL1 = new Station("DELL");
-    public static Station DELL2 = new Station("DELL");
-    public static Station SAMSUNG0 = new Station("SAMSUNG");
-    public static Station SAMSUNG1 = new Station("SAMSUNG");
-    public static Station HP0 = new Station("HP");
+    public static Station ASUS0 = new Station("ASUS", 0);
+    public static Station ASUS1 = new Station("ASUS", 1);
+    public static Station ASUS2 = new Station("ASUS", 2);
+    public static Station DELL0 = new Station("DELL", 3);
+    public static Station DELL1 = new Station("DELL", 4);
+    public static Station DELL2 = new Station("DELL", 5);
+    public static Station SAMSUNG0 = new Station("SAMSUNG", 6);
+    public static Station SAMSUNG1 = new Station("SAMSUNG", 7);
+    public static Station HP0 = new Station("HP", 8);
 
 
 

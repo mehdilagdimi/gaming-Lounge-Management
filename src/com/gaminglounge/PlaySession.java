@@ -34,6 +34,8 @@ public class PlaySession implements Serializable{
 
     public PlaySession(Station station, Game game, String duration) {
         this.station = station;
+        //occupy station
+        this.station.occupy();
         this.game = game;
         this.pricePaid = setPricePaid(duration);
         this.date = LocalDate.now();
@@ -44,13 +46,6 @@ public class PlaySession implements Serializable{
         this.concatenateData();
     }
 
-//    public int getPricePaid() {
-//        if(duration != 0){
-//            return pricePaid * duration;
-//        } else {
-//            throw new NoSuchElementException("Duration value in not set");
-//        }
-//    }
 
     public int setDuration(String durationStr) {
         final Map<String, Integer> MAP = new HashMap<String, Integer>(Map.ofEntries(
@@ -64,7 +59,6 @@ public class PlaySession implements Serializable{
     }
 
     public int getPricePaid() {
-        System.out.println("duraiton type :" + this.duration);
         if(this.duration != 0 && this.pricePaid == 0){
             System.err.println("Something went wrong calculating paid amount");
         }
@@ -86,8 +80,6 @@ public class PlaySession implements Serializable{
 
     private void concatenateData() {
         //add all data into an array
-//        LocalTime startHourNoMin = this.startHour.truncatedTo(ChronoUnit.MINUTES);
-//        String formattedStartHour = startHourNoMin.toString();
         String startHourStr = this.startHour.toString();
         String formattedDate = this.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
         StringHandler.addAll(this.dataRecord, this.firstName, this.lastName, Integer.toString(this.station.stationNum), this.game.getGameName(), startHourStr, Integer.toString(this.duration), Integer.toString(pricePaid), formattedDate);
